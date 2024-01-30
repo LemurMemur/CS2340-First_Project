@@ -1,4 +1,4 @@
-package com.example.cs2340_first_project.ui.dashboard;
+package com.example.cs2340_first_project.ui.exams;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.cs2340_first_project.databinding.FragmentDashboardBinding;
+import com.example.cs2340_first_project.databinding.FragmentExamsBinding;
 
-public class DashboardFragment extends Fragment {
+public class ExamsFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentExamsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        ExamsViewModel examsViewModel =
+                new ViewModelProvider(this).get(ExamsViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentExamsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        examsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

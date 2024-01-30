@@ -12,10 +12,16 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.cs2340_first_project.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_exams"
+        android:name="com.example.cs2340_first_project.ui.exams.ExamsFragment"
+        android:label="@string/title_exams"
+        tools:layout="@layout/fragment_exams" />
+
+    <fragment
+        android:id="@+id/navigation_weekly_schedule"
+        android:name="com.example.cs2340_first_project.ui.weeklyschedule.WeeklyScheduleFragment"
+        android:label="@string/title_weekly_schedule"
+        tools:layout="@layout/fragment_weekly_schedule" />
 
     <fragment
         android:id="@+id/navigation_notifications"
