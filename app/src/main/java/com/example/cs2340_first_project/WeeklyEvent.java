@@ -6,8 +6,8 @@ public class WeeklyEvent extends Event {
         super();
         dayOfWeek = "";
     }
-    public WeeklyEvent(String title, String location, String dayOfWeek) {
-        super(title, location);
+    public WeeklyEvent(String title, String location, String instructor, String dayOfWeek) {
+        super(title, location, instructor);
         this.dayOfWeek = dayOfWeek;
     }
 

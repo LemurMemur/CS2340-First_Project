@@ -68,7 +68,6 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="@dimen/standard_margin_size"
                 android:layout_marginTop="@dimen/standard_margin_size"
-                app:layout_constraintBottom_toTopOf=""
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"

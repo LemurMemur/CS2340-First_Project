@@ -6,8 +6,8 @@ public class OneTimeEvent extends Event {
         super();
         date = "";
     }
-    public OneTimeEvent(String title, String location, String date) {
-        super(title, location);
+    public OneTimeEvent(String title, String location, String instructor, String date) {
+        super(title, location, instructor);
         this.date = date;
     }
 
