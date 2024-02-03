@@ -6,12 +6,15 @@ public class OneTimeEvent extends Event {
         super();
         date = "";
     }
-    public OneTimeEvent(String title, String location, String instructor, String date) {
-        super(title, location, instructor);
+    public OneTimeEvent(String title, String location, String date) {
+        super(title, location);
         this.date = date;
     }
 
-    String getDate() {
+    public void setDate(String date) {
+        this.date = date;
+    }
+    public String getDate() {
         return date;
     }
 }

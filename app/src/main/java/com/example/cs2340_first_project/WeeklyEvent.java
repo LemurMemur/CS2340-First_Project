@@ -1,17 +1,22 @@
 package com.example.cs2340_first_project;
 
+
 public class WeeklyEvent extends Event {
-    private String dayOfWeek;
+    private boolean[] daysOfWeek;
+    private String timeOfDay;
     public WeeklyEvent() {
         super();
-        dayOfWeek = "";
+        daysOfWeek = new boolean[7];
     }
-    public WeeklyEvent(String title, String location, String instructor, String dayOfWeek) {
-        super(title, location, instructor);
-        this.dayOfWeek = dayOfWeek;
+    public WeeklyEvent(String title, String location, boolean[] daysOfWeek) {
+        super(title, location);
+        this.daysOfWeek = daysOfWeek;
     }
 
-    String getDayOfWeek() {
-        return dayOfWeek;
+    public void setDayOfWeek(boolean[] daysOfWeek) {
+        this.daysOfWeek = daysOfWeek;
+    }
+    public boolean[] getDayOfWeek() {
+        return daysOfWeek;
     }
 }
