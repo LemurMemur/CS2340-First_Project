@@ -26,4 +26,9 @@ public class Event {
     public String getLocation() {
         return this.location;
     }
+
+    @Override
+    public String toString() {
+        return this.title;
+    }
 }
