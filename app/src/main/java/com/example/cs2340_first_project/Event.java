@@ -1,15 +1,32 @@
 package com.example.cs2340_first_project;
 
+import java.util.ArrayList;
+
 public class Event {
+
+    public static ArrayList<Event> events = new ArrayList<>();
+    private static int idCount = 0;
+    private int id;
     private String title;
     private String location;
 
+    public static Event findEventByID(int ID) {
+        for (Event e : events) {
+            if (e.id == ID) {
+                return e;
+            }
+        }
+        return null;
+    }
+
     public Event() {
+        this.id = 0;
         this.title = "";
         this.location = "";
     }
 
     public Event(String title, String location) {
+        this.id = idCount++;
         this.title = title;
         this.location = location;
     }
@@ -19,6 +36,12 @@ public class Event {
     }
     public String getTitle() {
         return this.title;
+    }
+    public void setID(int id) {
+        this.id = id;
+    }
+    public int getID() {
+        return this.id;
     }
     public void setLocation(String location) {
         this.location = location;

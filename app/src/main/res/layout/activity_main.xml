@@ -7,52 +7,60 @@
     android:layout_height="match_parent"
     android:paddingTop="0dp">
 
+
+    <!-- Next Month Button -->
+
     <Button
         android:id="@+id/todoListNavigationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:text="To Do"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/monthTitle"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/newEventButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Event"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnPreviousMonth"
-        android:layout_width="wrap_content"
+        android:layout_width="128dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:text="Previous"
-        app:layout_constraintBottom_toTopOf="@+id/calendarGrid"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteY="63dp"
+        app:layout_constraintBottom_toTopOf="@+id/calendarGrid"/>
+
+    <!-- Calendar Grid -->
 
     <TextView
         android:id="@+id/monthTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:layout_weight="2"
         android:text="Month"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/todoListNavigationButton" />
-
-
-    <!-- Next Month Button -->
-    <Button
-        android:id="@+id/btnNextMonth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="Next"
         app:layout_constraintBottom_toTopOf="@+id/calendarGrid"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnNextMonth"
+        app:layout_constraintStart_toEndOf="@+id/btnPreviousMonth"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Calendar Grid -->
+    <Button
+        android:id="@+id/btnNextMonth"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="Next"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="63dp"
+        app:layout_constraintBottom_toTopOf="@+id/calendarGrid"/>
+
     <GridLayout
         android:id="@+id/calendarGrid"
         android:layout_width="0dp"
@@ -68,5 +76,12 @@
         <!-- Add day cells dynamically in your code -->
 
     </GridLayout>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left"
+        app:constraint_referenced_ids="btnNextMonth" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

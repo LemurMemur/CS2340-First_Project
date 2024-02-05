@@ -13,10 +13,10 @@ public class WeeklyEvent extends Event {
         this.daysOfWeek = daysOfWeek;
     }
 
-    public void setDayOfWeek(boolean[] daysOfWeek) {
+    public void setDaysOfWeek(boolean[] daysOfWeek) {
         this.daysOfWeek = daysOfWeek;
     }
-    public boolean[] getDayOfWeek() {
+    public boolean[] getDaysOfWeek() {
         return daysOfWeek;
     }
 }
