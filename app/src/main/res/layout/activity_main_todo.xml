@@ -32,6 +32,18 @@
             android:textStyle="bold"
             android:layout_gravity="end"
             android:onClick="newTodo"/>
+        <Button
+            android:id="@+id/CalenderNavigationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/calender"
+
+
+            android:gravity="center_vertical"
+
+        />
+
 
     </androidx.appcompat.widget.Toolbar>
 

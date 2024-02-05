@@ -1,12 +1,13 @@
 package com.example.cs2340_first_project;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivityTodo extends AppCompatActivity {
 
@@ -20,6 +21,13 @@ public class MainActivityTodo extends AppCompatActivity {
         loadFromDBToMemory();
         setTodoAdapter();
         setOnClickListener();
+        Button CalenderNavigationButton = findViewById(R.id.CalenderNavigationButton);
+        CalenderNavigationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToCalender(view);
+            }
+        });
     }
 
     private void initWidgets() {
@@ -56,6 +64,10 @@ public class MainActivityTodo extends AppCompatActivity {
     public void newTodo(View view){
         Intent newTodoIntent = new Intent(this, TodoDetailActivity.class);
         startActivity(newTodoIntent);
+    }
+    public void goToCalender(View view){
+        Intent CalenderIntent = new Intent(this, MainActivity.class);
+        startActivity(CalenderIntent);
     }
 
 }
