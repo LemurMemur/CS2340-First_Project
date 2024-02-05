@@ -1,13 +1,16 @@
 package com.example.cs2340_first_project;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,14 +26,17 @@ public class MainActivity extends AppCompatActivity {
     private int[] monthLengths = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int[] monthStartDays = {1, 4, 4, 0, 2, 5, 0, 3, 6, 1, 4, 6};
     private int cellWidth;
-
+    private ListView todoListView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        initWidgets();
+        loadFromDBToMemory();
+        setTodoAdapter();
+        setOnClickListener();
         currMonth = 1;
         refreshActivity();
 
@@ -136,6 +142,39 @@ public class MainActivity extends AppCompatActivity {
         return newCell;
 
     }
-
+    private void initWidgets() {
+        todoListView = findViewById(R.id.todoListView);
+    }
+    private void loadFromDBToMemory(){
+        SQLiteManager sqLiteManager = SQLiteManager.instanceOfDatabase(this);
+        sqLiteManager.populateTodoListArray();
+    }
+    private void setTodoAdapter(){
+        TodoAdapter todoAdapter = new TodoAdapter(getApplicationContext(), Todo.nonDeletedTodos());
+        todoListView.setAdapter(todoAdapter);
+    }
+    private void setOnClickListener(){
+        todoListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
+            {
+                Todo selectedTodo = (Todo) todoListView.getItemAtPosition(position);
+                Intent editTodoIntent = new Intent(getApplicationContext(), TodoDetailActivity.class);
+                editTodoIntent.putExtra(Todo.TODO_EDIT_EXTRA, selectedTodo.getId());
+                startActivity(editTodoIntent);
+            }
+        });
+    }
+    public void newTodo(View view){
+        Intent newTodoIntent = new Intent(this, TodoDetailActivity.class);
+        startActivity(newTodoIntent);
+    }
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        setTodoAdapter();
+    }
 
 }
