@@ -26,23 +26,18 @@ public class MainActivity extends AppCompatActivity {
     private int[] monthLengths = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int[] monthStartDays = {1, 4, 4, 0, 2, 5, 0, 3, 6, 1, 4, 6};
     private int cellWidth;
-    private ListView todoListView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        initWidgets();
-        loadFromDBToMemory();
-        setTodoAdapter();
-        setOnClickListener();
         currMonth = 1;
-        refreshActivity();
 
 
         Button btnPreviousMonth = findViewById(R.id.btnPreviousMonth);
         Button btnNextMonth = findViewById(R.id.btnNextMonth);
+        Button todoListNavigationButton = findViewById(R.id.todoListNavigationButton);
         btnPreviousMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,11 +60,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        todoListNavigationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToTodo(view);
+            }
+        });
+
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int screenWidth = displayMetrics.widthPixels;
         cellWidth = screenWidth/7;
 
+        refreshActivity();
     }
 
     private void refreshActivity() {
@@ -142,39 +145,8 @@ public class MainActivity extends AppCompatActivity {
         return newCell;
 
     }
-    private void initWidgets() {
-        todoListView = findViewById(R.id.todoListView);
+    public void goToTodo(View view){
+        Intent todoIntent = new Intent(this, MainActivityTodo.class);
+        startActivity(todoIntent);
     }
-    private void loadFromDBToMemory(){
-        SQLiteManager sqLiteManager = SQLiteManager.instanceOfDatabase(this);
-        sqLiteManager.populateTodoListArray();
-    }
-    private void setTodoAdapter(){
-        TodoAdapter todoAdapter = new TodoAdapter(getApplicationContext(), Todo.nonDeletedTodos());
-        todoListView.setAdapter(todoAdapter);
-    }
-    private void setOnClickListener(){
-        todoListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
-            {
-                Todo selectedTodo = (Todo) todoListView.getItemAtPosition(position);
-                Intent editTodoIntent = new Intent(getApplicationContext(), TodoDetailActivity.class);
-                editTodoIntent.putExtra(Todo.TODO_EDIT_EXTRA, selectedTodo.getId());
-                startActivity(editTodoIntent);
-            }
-        });
-    }
-    public void newTodo(View view){
-        Intent newTodoIntent = new Intent(this, TodoDetailActivity.class);
-        startActivity(newTodoIntent);
-    }
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        setTodoAdapter();
-    }
-
 }
