@@ -17,9 +17,9 @@ public class Todo
     private Date deleted;
     private String timeOfDay;
 
-    public Todo(int id, String title, String description, Date deleted, String timeOfDay)
+    public Todo(int id, String title, String description, String course, String location, String category, Date deleted, String timeOfDay)
     {
-        this(id, title, description, deleted);
+        this(id, title, description, course, location, category, deleted);
         this.timeOfDay = timeOfDay;
     }
 
@@ -43,6 +43,9 @@ public class Todo
         this.location = location;
         this.category = category;
         deleted = null;
+    }
+
+    public Todo(int id, String title, String desc, String course, String location, String category, String selectedTime) {
     }
 
     public static Todo getTodoForID(int passedTodoID)
