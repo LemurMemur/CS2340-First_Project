@@ -1,5 +1,6 @@
 package com.example.cs2340_first_project;
 
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -7,20 +8,22 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.app.AlertDialog;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class CalendarDetailActivity extends AppCompatActivity
 {
     private EditText eventTitleEditText, eventInstructorEditText, eventSectionEditText,
             eventLocationEditText;
     private LinearLayout eventDaySelection;
-    private Button deleteButton;
+    private Button deleteButton, eventTimeButton;
     private Course selectedEvent;
+    private String selectedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,6 +33,16 @@ public class CalendarDetailActivity extends AppCompatActivity
 
         initEventWidgets();
         checkForEditEvent();
+
+
+        eventTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog();
+                //System.out.println("eventTime pressed");
+            }
+        });
+
     }
 
     private void initEventWidgets()
@@ -40,9 +53,9 @@ public class CalendarDetailActivity extends AppCompatActivity
         eventDaySelection = findViewById(R.id.daySelection);
         eventSectionEditText = findViewById(R.id.eventSectionEditText);
         eventLocationEditText = findViewById(R.id.eventLocationEditText);
+        eventTimeButton = findViewById(R.id.eventTimeButton);
         deleteButton = findViewById(R.id.deleteEventButton);
 
-        //adsf
 
     }
 
@@ -50,16 +63,20 @@ public class CalendarDetailActivity extends AppCompatActivity
     {
         int passedEventID = getIntent().getIntExtra("id", -1); // fix this
         selectedEvent = (Course) Event.findEventByID(passedEventID);
+        selectedTime = "00:00";
 
         if (selectedEvent != null)
         {
             eventTitleEditText.setText(selectedEvent.getTitle());
             eventInstructorEditText.setText(selectedEvent.getInstructor());
-            for (int i=0; i<6; ++i) {
-                eventDaySelection.getChildAt(i).setActivated(selectedEvent.getDaysOfWeek()[i]);
+            for (int i=0; i<7; ++i) {
+                ((CheckBox) eventDaySelection.getChildAt(i)).setChecked(selectedEvent.getDaysOfWeek()[i]);
             }
             eventSectionEditText.setText(selectedEvent.getSection());
             eventLocationEditText.setText(selectedEvent.getLocation());
+            selectedTime = selectedEvent.getTimeOfDay();
+            eventTimeButton.setText("Selected Time: " + selectedTime);
+
         }
         else
         {
@@ -76,14 +93,14 @@ public class CalendarDetailActivity extends AppCompatActivity
 
         System.out.println(daysOfWeek);
 
-        for (int i=0; i<6; ++i) {
+        for (int i=0; i<7; ++i) {
             daysOfWeek[i] = ((CheckBox) eventDaySelection.getChildAt(i)).isChecked();
         }
         String section = String.valueOf(eventSectionEditText.getText());;
         String location = String.valueOf(eventLocationEditText.getText());;
         if(selectedEvent == null)
         {
-            Course newCourse = new Course(title, instructor, daysOfWeek, section, location);
+            Course newCourse = new Course(title, instructor, daysOfWeek, selectedTime, section, location);
             //System.out.println(newCourse);
             Event.events.add(newCourse);
         }
@@ -94,11 +111,36 @@ public class CalendarDetailActivity extends AppCompatActivity
             selectedEvent.setDaysOfWeek(daysOfWeek);
             selectedEvent.setSection(section);
             selectedEvent.setLocation(location);
+            selectedEvent.setTimeOfDay(selectedTime);
         }
 
         setResult(RESULT_OK);
         finish();
     }
+
+    private void showTimePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(
+                this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        selectedTime = String.format("%02d:%02d", hourOfDay, minute);
+                        eventTimeButton.setText("Selected Time: " + selectedTime);
+                    }
+                },
+                hour,
+                minute,
+                true
+        );
+
+        timePickerDialog.show();
+    }
+
+
 
     public void deleteEventCall(View view)
     {
