@@ -7,8 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +22,7 @@ public class TodoDetailActivity extends AppCompatActivity
     private EditText titleEditText, descEditText, courseEditText, locationEditText;
     private Button deleteButton;
     private Todo selectedTodo;
+    private Spinner categorySpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,6 +31,7 @@ public class TodoDetailActivity extends AppCompatActivity
         setContentView(R.layout.activity_todo_detail);
         initWidgets();
         checkForEditTodo();
+        setupCategorySpinner();
     }
 
     private void initWidgets()
@@ -36,6 +41,7 @@ public class TodoDetailActivity extends AppCompatActivity
         courseEditText = findViewById(R.id.courseEditText);
         locationEditText = findViewById(R.id.locationEditText);
         deleteButton = findViewById(R.id.deleteTodoButton);
+        categorySpinner = findViewById(R.id.categorySpinner);
     }
 
     private void checkForEditTodo()
@@ -115,5 +121,24 @@ public class TodoDetailActivity extends AppCompatActivity
         SQLiteManager sqLiteManager = instanceOfDatabase(this);
         sqLiteManager.updateTodoInDB(selectedTodo);
         finish();
+    }
+    private void setupCategorySpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.category_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(adapter);
+
+        // Optionally, handle item selections
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Your code here for handling item selection
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Your code here for handling no selection
+            }
+        });
     }
 }
