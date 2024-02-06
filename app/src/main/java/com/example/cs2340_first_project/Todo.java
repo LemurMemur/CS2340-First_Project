@@ -14,16 +14,13 @@ public class Todo
     private String course;
     private String location;
     private String category;
+    private String dateTime; // ISO8601 format for date and time
     private Date deleted;
-    private String timeOfDay;
 
-    public Todo(int id, String title, String description, String course, String location, String category, Date deleted, String timeOfDay)
-    {
-        this(id, title, description, course, location, category, deleted);
-        this.timeOfDay = timeOfDay;
-    }
 
-    public Todo(int id, String title, String description, String course, String location, String category, Date deleted)
+
+
+    public Todo(int id, String title, String description, String course, String location, String category, String dateTime, Date deleted)
     {
         this.id = id;
         this.title = title;
@@ -31,10 +28,11 @@ public class Todo
         this.course = course;
         this.location = location;
         this.category = category;
+        this.dateTime = dateTime;
         this.deleted = deleted;
     }
 
-    public Todo(int id, String title, String description, String course, String location, String category)
+    public Todo(int id, String title, String description, String course, String location, String category, String dateTime)
     {
         this.id = id;
         this.title = title;
@@ -42,11 +40,11 @@ public class Todo
         this.course = course;
         this.location = location;
         this.category = category;
+        this.dateTime = dateTime;
         deleted = null;
     }
 
-    public Todo(int id, String title, String desc, String course, String location, String category, String selectedTime) {
-    }
+
 
     public static Todo getTodoForID(int passedTodoID)
     {
@@ -124,6 +122,14 @@ public class Todo
     {
         this.category = category;
     }
+    public String getDateTime()
+    {
+        return category;
+    }
+    public void setDateTime(String dateTime)
+    {
+        this.dateTime = dateTime;
+    }
     public Date getDeleted()
     {
         return deleted;
@@ -134,13 +140,4 @@ public class Todo
         this.deleted = deleted;
     }
 
-    public String getTime()
-    {
-        return timeOfDay;
-    }
-
-    public void setTime(String timeOfDay)
-    {
-        this.timeOfDay = timeOfDay;
-    }
 }

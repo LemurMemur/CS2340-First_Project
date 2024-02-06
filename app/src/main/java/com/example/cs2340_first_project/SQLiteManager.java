@@ -28,6 +28,7 @@ public class SQLiteManager extends SQLiteOpenHelper
     private static final String COURSE_FIELD = "course";
     private static final String LOCATION_FIELD = "location";
     private static final String CATEGORY_FIELD = "category";
+    private static final String DATETIME_FIELD = "dateTime";
     private static final String DELETED_FIELD = "deleted";
 
     @SuppressLint("SimpleDateFormat")
@@ -68,6 +69,8 @@ public class SQLiteManager extends SQLiteOpenHelper
                 .append(" TEXT, ")
                 .append(CATEGORY_FIELD)
                 .append(" TEXT, ")
+                .append(DATETIME_FIELD)
+                .append(" TEXT, ")
                 .append(DELETED_FIELD)
                 .append(" TEXT)");
 
@@ -99,6 +102,7 @@ public class SQLiteManager extends SQLiteOpenHelper
         contentValues.put(COURSE_FIELD, todo.getCourse());
         contentValues.put(LOCATION_FIELD, todo.getLocation());
         contentValues.put(CATEGORY_FIELD, todo.getCategory());
+        contentValues.put(DATETIME_FIELD, todo.getDateTime());
         contentValues.put(DELETED_FIELD, getStringFromDate(todo.getDeleted()));
 
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
@@ -120,9 +124,10 @@ public class SQLiteManager extends SQLiteOpenHelper
                     String course = result.getString(4);
                     String location = result.getString(5);
                     String category = result.getString(6);
-                    String stringDeleted = result.getString(7);
+                    String dateTime = result.getString(7);
+                    String stringDeleted = result.getString(8);
                     Date deleted = getDateFromString(stringDeleted);
-                    Todo todo = new Todo(id,title,desc,course, location, category, deleted);
+                    Todo todo = new Todo(id,title,desc,course, location, category, dateTime, deleted);
                     Todo.todoArrayList.add(todo);
                 }
             }
@@ -139,6 +144,7 @@ public class SQLiteManager extends SQLiteOpenHelper
         contentValues.put(COURSE_FIELD, todo.getCourse());
         contentValues.put(LOCATION_FIELD, todo.getLocation());
         contentValues.put(CATEGORY_FIELD, todo.getCategory());
+        contentValues.put(DATETIME_FIELD, todo.getDateTime());
         contentValues.put(DELETED_FIELD, getStringFromDate(todo.getDeleted()));
 
         sqLiteDatabase.update(TABLE_NAME, contentValues, ID_FIELD + " =? ", new String[]{String.valueOf(todo.getId())});

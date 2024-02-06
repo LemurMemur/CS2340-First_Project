@@ -133,14 +133,25 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp" />
 
-    <Button
-        android:id="@+id/todoTimeButton"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date &amp; Time"
+        android:textSize="25sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/darkGray"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
+
+    <EditText
+        android:id="@+id/TimeEditText"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginHorizontal="20dp"
-        android:text="Select Time"
-        app:backgroundTint="@color/darkGray" />
+        android:layout_marginTop="5dp"
+        android:maxLines="1"
+        android:textColor="@color/darkGray"
+        android:textSize="25sp" />
 
     <Button
         android:id="@+id/deleteTodoButton"
