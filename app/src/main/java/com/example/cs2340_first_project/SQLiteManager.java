@@ -27,6 +27,7 @@ public class SQLiteManager extends SQLiteOpenHelper
     private static final String DESC_FIELD = "desc";
     private static final String COURSE_FIELD = "course";
     private static final String LOCATION_FIELD = "location";
+    private static final String CATEGORY_FIELD = "category";
     private static final String DELETED_FIELD = "deleted";
 
     @SuppressLint("SimpleDateFormat")
@@ -65,6 +66,8 @@ public class SQLiteManager extends SQLiteOpenHelper
                 .append(" TEXT, ")
                 .append(LOCATION_FIELD)
                 .append(" TEXT, ")
+                .append(CATEGORY_FIELD)
+                .append(" TEXT, ")
                 .append(DELETED_FIELD)
                 .append(" TEXT)");
 
@@ -95,6 +98,7 @@ public class SQLiteManager extends SQLiteOpenHelper
         contentValues.put(DESC_FIELD, todo.getDescription());
         contentValues.put(COURSE_FIELD, todo.getCourse());
         contentValues.put(LOCATION_FIELD, todo.getLocation());
+        contentValues.put(CATEGORY_FIELD, todo.getCategory());
         contentValues.put(DELETED_FIELD, getStringFromDate(todo.getDeleted()));
 
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
@@ -115,9 +119,10 @@ public class SQLiteManager extends SQLiteOpenHelper
                     String desc = result.getString(3);
                     String course = result.getString(4);
                     String location = result.getString(5);
-                    String stringDeleted = result.getString(6);
+                    String category = result.getString(6);
+                    String stringDeleted = result.getString(7);
                     Date deleted = getDateFromString(stringDeleted);
-                    Todo todo = new Todo(id,title,desc,course, location, deleted);
+                    Todo todo = new Todo(id,title,desc,course, location, category, deleted);
                     Todo.todoArrayList.add(todo);
                 }
             }
@@ -131,6 +136,9 @@ public class SQLiteManager extends SQLiteOpenHelper
         contentValues.put(ID_FIELD, todo.getId());
         contentValues.put(TITLE_FIELD, todo.getTitle());
         contentValues.put(DESC_FIELD, todo.getDescription());
+        contentValues.put(COURSE_FIELD, todo.getCourse());
+        contentValues.put(LOCATION_FIELD, todo.getLocation());
+        contentValues.put(CATEGORY_FIELD, todo.getCategory());
         contentValues.put(DELETED_FIELD, getStringFromDate(todo.getDeleted()));
 
         sqLiteDatabase.update(TABLE_NAME, contentValues, ID_FIELD + " =? ", new String[]{String.valueOf(todo.getId())});

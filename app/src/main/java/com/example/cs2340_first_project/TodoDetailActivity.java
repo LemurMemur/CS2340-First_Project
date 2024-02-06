@@ -17,16 +17,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Date;
 
-public class TodoDetailActivity extends AppCompatActivity
-{
+public class TodoDetailActivity extends AppCompatActivity {
     private EditText titleEditText, descEditText, courseEditText, locationEditText;
     private Button deleteButton;
     private Todo selectedTodo;
     private Spinner categorySpinner;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_detail);
         initWidgets();
@@ -34,8 +32,7 @@ public class TodoDetailActivity extends AppCompatActivity
         setupCategorySpinner();
     }
 
-    private void initWidgets()
-    {
+    private void initWidgets() {
         titleEditText = findViewById(R.id.titleEditText);
         descEditText = findViewById(R.id.descriptionEditText);
         courseEditText = findViewById(R.id.courseEditText);
@@ -44,55 +41,48 @@ public class TodoDetailActivity extends AppCompatActivity
         categorySpinner = findViewById(R.id.categorySpinner);
     }
 
-    private void checkForEditTodo()
-    {
+    private void checkForEditTodo() {
         Intent previousIntent = getIntent();
-
-        int passedTodoID = previousIntent.getIntExtra(com.example.cs2340_first_project.Todo.TODO_EDIT_EXTRA, -1);
+        int passedTodoID = previousIntent.getIntExtra(Todo.TODO_EDIT_EXTRA, -1);
         selectedTodo = Todo.getTodoForID(passedTodoID);
 
-        if (selectedTodo != null)
-        {
+        if (selectedTodo != null) {
             titleEditText.setText(selectedTodo.getTitle());
             descEditText.setText(selectedTodo.getDescription());
             courseEditText.setText(selectedTodo.getCourse());
             locationEditText.setText(selectedTodo.getLocation());
-        }
-        else
-        {
+            // Add logic here if needed to set spinner value
+        } else {
             deleteButton.setVisibility(View.INVISIBLE);
         }
     }
 
-    public void saveTodo(View view)
-    {
+    public void saveTodo(View view) {
         SQLiteManager sqLiteManager = instanceOfDatabase(this);
-        String title = String.valueOf(titleEditText.getText());
-        String desc = String.valueOf(descEditText.getText());
-        String course = String.valueOf(courseEditText.getText());
-        String location = String.valueOf(locationEditText.getText());
+        String title = titleEditText.getText().toString();
+        String desc = descEditText.getText().toString();
+        String course = courseEditText.getText().toString();
+        String location = locationEditText.getText().toString();
+        String category = categorySpinner.getSelectedItem().toString();
 
-        if(selectedTodo == null)
-        {
+        if (selectedTodo == null) {
             int id = Todo.todoArrayList.size();
-            Todo newTodo = new Todo(id, title, desc, course, location);
-            com.example.cs2340_first_project.Todo.todoArrayList.add(newTodo);
+            Todo newTodo = new Todo(id, title, desc, course, location, category);
+            Todo.todoArrayList.add(newTodo);
             sqLiteManager.addTodoToDatabase(newTodo);
-        }
-        else
-        {
+        } else {
             selectedTodo.setTitle(title);
             selectedTodo.setDescription(desc);
             selectedTodo.setCourse(course);
             selectedTodo.setLocation(location);
+            selectedTodo.setCategory(category);
             sqLiteManager.updateTodoInDB(selectedTodo);
         }
 
         finish();
     }
 
-    public void deleteTodoCall(View view)
-    {
+    public void deleteTodoCall(View view) {
         showConfirmationDialog();
     }
 
@@ -106,38 +96,41 @@ public class TodoDetailActivity extends AppCompatActivity
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        ;
+                        // User cancelled the dialog
                     }
                 });
 
-        // Create and show the AlertDialog
         AlertDialog dialog = builder.create();
         dialog.show();
     }
 
-    public void deleteTodo()
-    {
+    public void deleteTodo() {
         selectedTodo.setDeleted(new Date());
         SQLiteManager sqLiteManager = instanceOfDatabase(this);
         sqLiteManager.updateTodoInDB(selectedTodo);
         finish();
     }
+
     private void setupCategorySpinner() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.category_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
 
-        // Optionally, handle item selections
+        // Set spinner to show the correct category when editing an existing Todo
+        if (selectedTodo != null && selectedTodo.getCategory() != null) {
+            int spinnerPosition = adapter.getPosition(selectedTodo.getCategory());
+            categorySpinner.setSelection(spinnerPosition);
+        }
+
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // Your code here for handling item selection
+                // Optionally update the Todo object immediately if needed
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // Your code here for handling no selection
             }
         });
     }
