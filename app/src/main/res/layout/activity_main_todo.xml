@@ -13,22 +13,19 @@
         android:background="@color/darkGray"
         android:minHeight="?actionBarSize"
         android:theme="?actionBarTheme">
-
-        <TextView
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="TODO"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/filter"
+            />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
             android:onClick="newTodo"
             android:text="+"
+            android:layout_gravity="center"
             android:textColor="@color/white"
             android:textSize="35sp"
             android:textStyle="bold" />
@@ -36,6 +33,7 @@
         <Button
             android:id="@+id/CalenderNavigationButton"
             android:layout_width="wrap_content"
+            android:layout_gravity="end"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:drawableLeft="@drawable/calender"

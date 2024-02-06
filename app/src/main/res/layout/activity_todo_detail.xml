@@ -162,7 +162,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:maxLines="1"
-        android:hint="yyyy/mm/dd-hh/mm"
+        android:hint="yyyy/mm/dd-hh:mm"
         android:textColor="@color/darkGray"
         android:textSize="25sp" />
 
