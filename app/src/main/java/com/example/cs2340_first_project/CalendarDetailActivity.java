@@ -1,5 +1,7 @@
 package com.example.cs2340_first_project;
 
+import static com.example.cs2340_first_project.EventSQLM.instanceOfEventDatabase;
+
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -21,9 +23,10 @@ public class CalendarDetailActivity extends AppCompatActivity
     private EditText eventTitleEditText, eventInstructorEditText, eventSectionEditText,
             eventLocationEditText;
     private LinearLayout eventDaySelection;
-    private Button deleteButton, eventTimeButton;
+    private Button deleteButton, eventTimeButton, eventDetailsBackButton;
     private Course selectedEvent;
     private String selectedTime;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,13 +38,6 @@ public class CalendarDetailActivity extends AppCompatActivity
         checkForEditEvent();
 
 
-        eventTimeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog();
-                System.out.println("eventTime pressed");
-            }
-        });
 
     }
 
@@ -55,6 +51,24 @@ public class CalendarDetailActivity extends AppCompatActivity
         eventLocationEditText = findViewById(R.id.eventLocationEditText);
         eventTimeButton = findViewById(R.id.eventTimeButton);
         deleteButton = findViewById(R.id.deleteEventButton);
+        eventDetailsBackButton = findViewById(R.id.eventDetailsBackButton);
+
+
+        eventTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog();
+                System.out.println("eventTime pressed");
+            }
+        });
+
+        eventDetailsBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
 
 
     }
@@ -87,6 +101,8 @@ public class CalendarDetailActivity extends AppCompatActivity
     public void saveEvent(View view)
     {
 
+        EventSQLM ESQLM = instanceOfEventDatabase(this);
+
         String title = String.valueOf(eventTitleEditText.getText());
         String instructor = String.valueOf(eventInstructorEditText.getText());
         boolean[] daysOfWeek = new boolean[7];
@@ -103,6 +119,7 @@ public class CalendarDetailActivity extends AppCompatActivity
             Course newCourse = new Course(title, instructor, daysOfWeek, selectedTime, section, location);
             //System.out.println(newCourse);
             Event.events.add(newCourse);
+            ESQLM.addEventToDatabase(newCourse);
         }
         else
         {
@@ -112,7 +129,10 @@ public class CalendarDetailActivity extends AppCompatActivity
             selectedEvent.setSection(section);
             selectedEvent.setLocation(location);
             selectedEvent.setTimeOfDay(selectedTime);
+            ESQLM.updateEventInDB(selectedEvent);
         }
+
+
 
         setResult(RESULT_OK);
         finish();
@@ -168,6 +188,8 @@ public class CalendarDetailActivity extends AppCompatActivity
 
     public void deleteEvent() {
         Event.events.remove(selectedEvent);
+        EventSQLM ESQLM = instanceOfEventDatabase(this);
+        ESQLM.deleteEvent(selectedEvent);
         setResult(RESULT_OK);
         finish();
     }

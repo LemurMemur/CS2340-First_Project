@@ -28,7 +28,7 @@ import java.util.Locale;
 
 public class TodoDetailActivity extends AppCompatActivity {
     private EditText titleEditText, descEditText, courseEditText, locationEditText, timeEditText;
-    private Button deleteButton;
+    private Button deleteButton, todoDetailsBackButton;
     private Todo selectedTodo;
     private Spinner categorySpinner;
 
@@ -54,6 +54,15 @@ public class TodoDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showDateTimeDialog(timeEditText);
+            }
+        });
+
+        todoDetailsBackButton = findViewById(R.id.todoDetailsBackButton);
+        todoDetailsBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                finish();
             }
         });
     }
