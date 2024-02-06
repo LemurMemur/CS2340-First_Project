@@ -28,10 +28,10 @@ public class TodoAdapter extends ArrayAdapter<Todo>
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.todo_cell, parent, false);
 
         TextView title = convertView.findViewById(R.id.cellTitle);
-        TextView desc = convertView.findViewById(R.id.cellDesc);
+        TextView due = convertView.findViewById(R.id.cellDue);
 
         title.setText(todo.getTitle());
-        desc.setText(todo.getDescription());
+        due.setText(todo.getDuedate());
 
         return convertView;
     }
