@@ -25,6 +25,8 @@ public class SQLiteManager extends SQLiteOpenHelper
     private static final String ID_FIELD = "id";
     private static final String TITLE_FIELD = "title";
     private static final String DESC_FIELD = "desc";
+    private static final String COURSE_FIELD = "course";
+    private static final String LOCATION_FIELD = "location";
     private static final String DELETED_FIELD = "deleted";
 
     @SuppressLint("SimpleDateFormat")
@@ -59,6 +61,10 @@ public class SQLiteManager extends SQLiteOpenHelper
                 .append(" TEXT, ")
                 .append(DESC_FIELD)
                 .append(" TEXT, ")
+                .append(COURSE_FIELD)
+                .append(" TEXT, ")
+                .append(LOCATION_FIELD)
+                .append(" TEXT, ")
                 .append(DELETED_FIELD)
                 .append(" TEXT)");
 
@@ -68,14 +74,16 @@ public class SQLiteManager extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion)
     {
-//        switch (oldVersion)
-//        {
-//            case 1:
-//                sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + NEW_COLUMN + " TEXT");
-//            case 2:
-//                sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + NEW_COLUMN + " TEXT");
-//        }
-    }
+ /*       switch (oldVersion)
+        {
+            case 1:
+                sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + COURSE_FIELD + " TEXT");
+                sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + LOCATION_FIELD + " TEXT");
+            case 2:
+               // sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + NEW_COLUMN + " TEXT");
+                break;
+         }
+    */ }
 
     public void addTodoToDatabase(Todo todo)
     {
@@ -85,6 +93,8 @@ public class SQLiteManager extends SQLiteOpenHelper
         contentValues.put(ID_FIELD, todo.getId());
         contentValues.put(TITLE_FIELD, todo.getTitle());
         contentValues.put(DESC_FIELD, todo.getDescription());
+        contentValues.put(COURSE_FIELD, todo.getCourse());
+        contentValues.put(LOCATION_FIELD, todo.getLocation());
         contentValues.put(DELETED_FIELD, getStringFromDate(todo.getDeleted()));
 
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
@@ -103,9 +113,11 @@ public class SQLiteManager extends SQLiteOpenHelper
                     int id = result.getInt(1);
                     String title = result.getString(2);
                     String desc = result.getString(3);
-                    String stringDeleted = result.getString(4);
+                    String course = result.getString(4);
+                    String location = result.getString(5);
+                    String stringDeleted = result.getString(6);
                     Date deleted = getDateFromString(stringDeleted);
-                    Todo todo = new Todo(id,title,desc,deleted);
+                    Todo todo = new Todo(id,title,desc,course, location, deleted);
                     Todo.todoArrayList.add(todo);
                 }
             }

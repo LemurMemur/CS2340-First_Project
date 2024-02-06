@@ -11,6 +11,8 @@ public class Todo
     private int id;
     private String title;
     private String description;
+    private String course;
+    private String location;
     private Date deleted;
     private String timeOfDay;
 
@@ -20,19 +22,22 @@ public class Todo
         this.timeOfDay = timeOfDay;
     }
 
-    public Todo(int id, String title, String description, Date deleted)
+    public Todo(int id, String title, String description, String course, String location, Date deleted)
     {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.course = course;
         this.deleted = deleted;
     }
 
-    public Todo(int id, String title, String description)
+    public Todo(int id, String title, String description, String course, String location)
     {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.course = course;
+        this.location = location;
         deleted = null;
     }
 
@@ -73,7 +78,6 @@ public class Todo
     {
         return title;
     }
-
     public void setTitle(String title)
     {
         this.title = title;
@@ -83,12 +87,28 @@ public class Todo
     {
         return description;
     }
-
     public void setDescription(String description)
     {
         this.description = description;
     }
 
+    public String getCourse()
+    {
+        return course;
+    }
+    public void setCourse(String course)
+    {
+        this.course = course;
+    }
+
+    public String getLocation()
+    {
+        return location;
+    }
+    public void setLocation(String location)
+    {
+        this.location = location;
+    }
     public Date getDeleted()
     {
         return deleted;
