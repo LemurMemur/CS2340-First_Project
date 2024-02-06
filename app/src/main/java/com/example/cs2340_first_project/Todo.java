@@ -14,13 +14,13 @@ public class Todo
     private String course;
     private String location;
     private String category;
-    private String dateTime;
+    private String duedate;
     private Date deleted;
 
 
 
 
-    public Todo(int id, String title, String description, String course, String location, String category, String dateTime, Date deleted)
+    public Todo(int id, String title, String description, String course, String location, String category, String duedate, Date deleted)
     {
         this.id = id;
         this.title = title;
@@ -28,11 +28,11 @@ public class Todo
         this.course = course;
         this.location = location;
         this.category = category;
-        this.dateTime = dateTime;
+        this.duedate = duedate;
         this.deleted = deleted;
     }
 
-    public Todo(int id, String title, String description, String course, String location, String category, String dateTIme)
+    public Todo(int id, String title, String description, String course, String location, String category, String duedate)
     {
         this.id = id;
         this.title = title;
@@ -40,7 +40,7 @@ public class Todo
         this.course = course;
         this.location = location;
         this.category = category;
-        this.dateTime = dateTime;
+        this.duedate = duedate;
         deleted = null;
     }
 
@@ -122,13 +122,13 @@ public class Todo
     {
         this.category = category;
     }
-    public String getDateTime()
+    public String getDuedate()
     {
-        return dateTime;
+        return duedate;
     }
-    public void setDateTime(String dateTime)
+    public void setDuedate(String duedate)
     {
-        this.dateTime = dateTime;
+        this.duedate = duedate;
     }
     public Date getDeleted()
     {

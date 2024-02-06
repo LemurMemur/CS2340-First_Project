@@ -56,7 +56,7 @@ public class TodoDetailActivity extends AppCompatActivity {
             descEditText.setText(selectedTodo.getDescription());
             courseEditText.setText(selectedTodo.getCourse());
             locationEditText.setText(selectedTodo.getLocation());
-            dateTimeEditText.setText(selectedTodo.getDateTime());
+            dateTimeEditText.setText(selectedTodo.getDuedate());
 
         } else {
             deleteButton.setVisibility(View.INVISIBLE);
@@ -70,11 +70,11 @@ public class TodoDetailActivity extends AppCompatActivity {
         String course = courseEditText.getText().toString();
         String location = locationEditText.getText().toString();
         String category = categorySpinner.getSelectedItem().toString();
-        String dateTime = dateTimeEditText.getText().toString();
+        String duedate = dateTimeEditText.getText().toString();
 
         if (selectedTodo == null) {
             int id = Todo.todoArrayList.size();
-            Todo newTodo = new Todo(id, title, desc, course, location, category, dateTime);
+            Todo newTodo = new Todo(id, title, desc, course, location, category, duedate);
             Todo.todoArrayList.add(newTodo);
             sqLiteManager.addTodoToDatabase(newTodo);
         } else {
@@ -83,7 +83,7 @@ public class TodoDetailActivity extends AppCompatActivity {
             selectedTodo.setCourse(course);
             selectedTodo.setLocation(location);
             selectedTodo.setCategory(category);
-            selectedTodo.setDateTime(dateTime);
+            selectedTodo.setDuedate(duedate);
             sqLiteManager.updateTodoInDB(selectedTodo);
         }
 
