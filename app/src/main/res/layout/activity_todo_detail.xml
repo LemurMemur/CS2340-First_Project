@@ -33,7 +33,7 @@
             android:textColor="@color/darkGray"
             android:textStyle="bold"
             android:layout_gravity="end"
-            android:onClick="saveEvent"/>
+            android:onClick="saveTodo"/>
 
     </androidx.appcompat.widget.Toolbar>
 
