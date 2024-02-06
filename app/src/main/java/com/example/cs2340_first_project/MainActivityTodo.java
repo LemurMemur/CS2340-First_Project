@@ -39,8 +39,6 @@ public class MainActivityTodo extends AppCompatActivity {
         if(firstRun){
             SQLiteManager sqLiteManager = SQLiteManager.instanceOfDatabase(this);
             sqLiteManager.populateTodoListArray();
-            sqLiteManager.close();
-            finish();
         }
         firstRun = false;
     }
