@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private int[] monthLengths = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int[] monthStartDays = {1, 4, 4, 0, 2, 5, 0, 3, 6, 1, 4, 6};
     private int cellWidth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnPreviousMonth = findViewById(R.id.btnPreviousMonth);
         Button btnNextMonth = findViewById(R.id.btnNextMonth);
         Button todoListNavigationButton = findViewById(R.id.todoListNavigationButton);
+        Button newEventButton = findViewById(R.id.newEventButton);
         btnPreviousMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,6 +68,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 goToTodo(view);
             }
+        });
+        newEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newEvent(view, -1);
+                refreshActivity();
+            }
+
         });
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -114,19 +125,30 @@ public class MainActivity extends AppCompatActivity {
 
         newCell.addView(dayText);
 
+
+        // DONT USE taskList, INSTEAD USE THE events STATIC MEMBER
         ArrayList<String> taskList = new ArrayList<>();
 
-        // Populate the taskList here
+        // Populate the cell
 
-        // Example:
-        taskList.add("CS2340 - Object Oriented Design");
-
-        for (String task : taskList) {
+        for (Event event : Event.events) {
+            boolean[] dOW = ((WeeklyEvent) event).getDaysOfWeek();
+            if (!dOW[(day - 1 + monthStartDays[currMonth])%7]) {
+                continue;
+            }
             TextView taskText = new TextView(this);
-            taskText.setText(String.valueOf(task));
+            taskText.setText(String.valueOf(event.getTitle()));
 
             taskText.setMaxWidth(cellWidth);
             taskText.setMaxLines(1);
+
+
+            taskText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    newEvent(view, event.getID());
+                }
+            });
 
             newCell.addView(taskText);
         }
@@ -149,4 +171,21 @@ public class MainActivity extends AppCompatActivity {
         Intent todoIntent = new Intent(this, MainActivityTodo.class);
         startActivity(todoIntent);
     }
+
+    public void newEvent(View view, int eventID){
+        Intent newEventIntent = new Intent(this, CalendarDetailActivity.class);
+        newEventIntent.putExtra("id", eventID);
+        startActivityForResult(newEventIntent, 1);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            refreshActivity();
+        }
+    }
+
+
 }
