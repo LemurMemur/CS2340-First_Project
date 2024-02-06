@@ -1,5 +1,7 @@
 package com.example.cs2340_first_project;
 
+import static com.example.cs2340_first_project.EventSQLM.instanceOfEventDatabase;
+
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 if (currMonth < 0) {
                     currMonth += 12;
                 }
+
                 refreshActivity();
             }
         });
@@ -86,10 +89,16 @@ public class MainActivity extends AppCompatActivity {
         int screenWidth = displayMetrics.widthPixels;
         cellWidth = screenWidth/7;
 
+        populateEventArrayList();
+
         refreshActivity();
     }
 
     private void refreshActivity() {
+
+        //update event list
+
+
         GridLayout calendarGrid = findViewById(R.id.calendarGrid);
         calendarGrid.removeAllViews();
 
@@ -202,6 +211,11 @@ public class MainActivity extends AppCompatActivity {
             // Refresh Calendar View to include edits
             refreshActivity();
         }
+    }
+
+    private void populateEventArrayList() {
+        EventSQLM ESQLM = instanceOfEventDatabase(this);
+        ESQLM.populateEventListArray();
     }
 
 

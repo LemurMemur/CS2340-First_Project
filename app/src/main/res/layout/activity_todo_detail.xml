@@ -15,6 +15,18 @@
         android:theme="?actionBarTheme"
         android:background="@color/darkGray">
 
+
+        <Button
+            android:id="@+id/todoDetailsBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:backgroundTint="@color/white"
+            android:text="BACK"
+            android:textColor="@color/darkGray"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
