@@ -10,8 +10,8 @@ public class Course extends WeeklyEvent {
         instructor = "";
         section = "";
     }
-    public Course(String title, String location, boolean[] daysOfWeek, String instructor, String section) {
-        super(title, location, daysOfWeek);
+    public Course(String title, String location, boolean[] daysOfWeek, String timeOfDay, String instructor, String section) {
+        super(title, location, daysOfWeek, timeOfDay);
         this.instructor = instructor;
         this.section = section;
     }

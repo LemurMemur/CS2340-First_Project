@@ -30,12 +30,12 @@
         android:id="@+id/btnPreviousMonth"
         android:layout_width="128dp"
         android:layout_height="wrap_content"
-        android:text="Previous"
+        android:layout_marginStart="4dp"
+        android:text="Prev"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="63dp"
         app:layout_constraintBottom_toTopOf="@+id/calendarGrid"/>
 
-    <!-- Calendar Grid -->
 
     <TextView
         android:id="@+id/monthTitle"

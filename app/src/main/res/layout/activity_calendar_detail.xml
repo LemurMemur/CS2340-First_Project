@@ -40,7 +40,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Course Title"
+        android:text="Title"
         android:textSize="20sp"
         android:layout_marginTop="10dp"
         android:textColor="@color/darkGray"
@@ -57,33 +57,12 @@
         android:textColor="@color/darkGray"
         android:layout_gravity="center"/>
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Instructor"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/darkGray"
-        android:textStyle="bold"
-        android:layout_gravity="center"/>
-
-    <EditText
-        android:id="@+id/eventInstructorEditText"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:maxLines="1"
-        android:textColor="@color/darkGray"
-        android:layout_gravity="center"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Section"
         android:textSize="20sp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/darkGray"
         android:textStyle="bold"
         android:layout_gravity="center"/>
@@ -101,9 +80,29 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Instructor"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/darkGray"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
+
+    <EditText
+        android:id="@+id/eventInstructorEditText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:maxLines="1"
+        android:textColor="@color/darkGray"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Location"
         android:textSize="20sp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/darkGray"
         android:textStyle="bold"
         android:layout_gravity="center"/>
@@ -112,7 +111,7 @@
         android:id="@+id/eventLocationEditText"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:layout_marginTop="10dp"
         android:maxLines="1"
         android:textColor="@color/darkGray"
@@ -169,6 +168,16 @@
 
     </LinearLayout>
 
+
+    <Button
+        android:id="@+id/eventTimeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Time"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"/>
 
     <Button
         android:id="@+id/deleteEventButton"

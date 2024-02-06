@@ -1,6 +1,7 @@
 package com.example.cs2340_first_project;
 
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -17,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cs2340_first_project.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -164,6 +167,12 @@ public class MainActivity extends AppCompatActivity {
         params.rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
         params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
         newCell.setLayoutParams(params);
+
+        GradientDrawable borderDrawable = new GradientDrawable();
+        borderDrawable.setStroke(2, 0x88888888); // Set the border width and color
+
+        newCell.setBackground(borderDrawable);
+
         return newCell;
 
     }
@@ -183,6 +192,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Sort event list so it is ordered by time
+            Collections.sort(Event.events, new Comparator<Event>() {
+                @Override
+                public int compare(Event ev1, Event ev2) {
+                    return ((WeeklyEvent)ev1).getTimeOfDay().compareTo(((WeeklyEvent)ev2).getTimeOfDay());
+                }
+            });
+            // Refresh Calendar View to include edits
             refreshActivity();
         }
     }
