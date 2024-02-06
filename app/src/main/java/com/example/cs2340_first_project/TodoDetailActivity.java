@@ -1,5 +1,7 @@
 package com.example.cs2340_first_project;
 
+import static com.example.cs2340_first_project.SQLiteManager.instanceOfDatabase;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +16,7 @@ import java.util.Date;
 
 public class TodoDetailActivity extends AppCompatActivity
 {
-    private EditText titleEditText, descEditText;
+    private EditText titleEditText, descEditText, courseEditText, locationEditText;
     private Button deleteButton;
     private Todo selectedTodo;
 
@@ -31,6 +33,8 @@ public class TodoDetailActivity extends AppCompatActivity
     {
         titleEditText = findViewById(R.id.titleEditText);
         descEditText = findViewById(R.id.descriptionEditText);
+        courseEditText = findViewById(R.id.courseEditText);
+        locationEditText = findViewById(R.id.locationEditText);
         deleteButton = findViewById(R.id.deleteTodoButton);
     }
 
@@ -45,6 +49,8 @@ public class TodoDetailActivity extends AppCompatActivity
         {
             titleEditText.setText(selectedTodo.getTitle());
             descEditText.setText(selectedTodo.getDescription());
+            courseEditText.setText(selectedTodo.getCourse());
+            locationEditText.setText(selectedTodo.getLocation());
         }
         else
         {
@@ -54,14 +60,16 @@ public class TodoDetailActivity extends AppCompatActivity
 
     public void saveTodo(View view)
     {
-        SQLiteManager sqLiteManager = SQLiteManager.instanceOfDatabase(this);
+        SQLiteManager sqLiteManager = instanceOfDatabase(this);
         String title = String.valueOf(titleEditText.getText());
         String desc = String.valueOf(descEditText.getText());
+        String course = String.valueOf(courseEditText.getText());
+        String location = String.valueOf(locationEditText.getText());
 
         if(selectedTodo == null)
         {
             int id = Todo.todoArrayList.size();
-            Todo newTodo = new Todo(id, title, desc);
+            Todo newTodo = new Todo(id, title, desc, course, location);
             com.example.cs2340_first_project.Todo.todoArrayList.add(newTodo);
             sqLiteManager.addTodoToDatabase(newTodo);
         }
@@ -69,6 +77,8 @@ public class TodoDetailActivity extends AppCompatActivity
         {
             selectedTodo.setTitle(title);
             selectedTodo.setDescription(desc);
+            selectedTodo.setCourse(course);
+            selectedTodo.setLocation(location);
             sqLiteManager.updateTodoInDB(selectedTodo);
         }
 
@@ -102,7 +112,7 @@ public class TodoDetailActivity extends AppCompatActivity
     public void deleteTodo()
     {
         selectedTodo.setDeleted(new Date());
-        SQLiteManager sqLiteManager = SQLiteManager.instanceOfDatabase(this);
+        SQLiteManager sqLiteManager = instanceOfDatabase(this);
         sqLiteManager.updateTodoInDB(selectedTodo);
         finish();
     }
