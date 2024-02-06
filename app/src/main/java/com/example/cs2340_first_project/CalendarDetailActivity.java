@@ -39,7 +39,7 @@ public class CalendarDetailActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 showTimePickerDialog();
-                //System.out.println("eventTime pressed");
+                System.out.println("eventTime pressed");
             }
         });
 

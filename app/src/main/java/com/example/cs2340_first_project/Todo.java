@@ -12,6 +12,13 @@ public class Todo
     private String title;
     private String description;
     private Date deleted;
+    private String timeOfDay;
+
+    public Todo(int id, String title, String description, Date deleted, String timeOfDay)
+    {
+        this(id, title, description, deleted);
+        this.timeOfDay = timeOfDay;
+    }
 
     public Todo(int id, String title, String description, Date deleted)
     {
@@ -90,5 +97,15 @@ public class Todo
     public void setDeleted(Date deleted)
     {
         this.deleted = deleted;
+    }
+
+    public String getTime()
+    {
+        return timeOfDay;
+    }
+
+    public void setTime(String timeOfDay)
+    {
+        this.timeOfDay = timeOfDay;
     }
 }

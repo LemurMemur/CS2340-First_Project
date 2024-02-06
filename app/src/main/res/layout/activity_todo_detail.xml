@@ -133,8 +133,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/timePickerButton"
+    <Button
+        android:id="@+id/todoTimeButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
