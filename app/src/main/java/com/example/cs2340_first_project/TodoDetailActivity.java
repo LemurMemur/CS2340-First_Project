@@ -1,5 +1,7 @@
 package com.example.cs2340_first_project;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -73,7 +75,31 @@ public class TodoDetailActivity extends AppCompatActivity
         finish();
     }
 
-    public void deleteTodo(View view)
+    public void deleteTodoCall(View view)
+    {
+        showConfirmationDialog();
+    }
+
+    private void showConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Confirm delete Todo?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteTodo();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ;
+                    }
+                });
+
+        // Create and show the AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void deleteTodo()
     {
         selectedTodo.setDeleted(new Date());
         SQLiteManager sqLiteManager = SQLiteManager.instanceOfDatabase(this);

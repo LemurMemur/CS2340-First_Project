@@ -1,11 +1,14 @@
 package com.example.cs2340_first_project;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+import android.app.AlertDialog;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -97,11 +100,33 @@ public class CalendarDetailActivity extends AppCompatActivity
         finish();
     }
 
-    public void deleteEvent(View view)
+    public void deleteEventCall(View view)
     {
+        showConfirmationDialog();
+    }
+
+    private void showConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Confirm delete event?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteEvent();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ;
+                    }
+                });
+
+        // Create and show the AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void deleteEvent() {
         Event.events.remove(selectedEvent);
         setResult(RESULT_OK);
         finish();
-
     }
 }

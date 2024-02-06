@@ -181,7 +181,7 @@
         android:textStyle="bold"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:onClick="deleteEvent"/>
+        android:onClick="deleteEventCall"/>
 
 
 
