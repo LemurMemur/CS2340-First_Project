@@ -9,11 +9,11 @@
         android:id="@+id/cellTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title"
-        android:textStyle="bold"
         android:maxLines="1"
+        android:text="Title"
         android:textColor="@color/darkGray"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/cellDesc"
@@ -24,5 +24,6 @@
         android:layout_marginTop="5dp"
         android:textColor="@color/darkGray"
         android:textSize="20sp"/>
+
 
 </LinearLayout>

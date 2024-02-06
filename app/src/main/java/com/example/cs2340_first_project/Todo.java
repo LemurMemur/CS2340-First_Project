@@ -14,7 +14,7 @@ public class Todo
     private String course;
     private String location;
     private String category;
-    private String dateTime; // ISO8601 format for date and time
+    private String dateTime;
     private Date deleted;
 
 
@@ -32,7 +32,7 @@ public class Todo
         this.deleted = deleted;
     }
 
-    public Todo(int id, String title, String description, String course, String location, String category, String dateTime)
+    public Todo(int id, String title, String description, String course, String location, String category, String dateTIme)
     {
         this.id = id;
         this.title = title;
@@ -124,7 +124,7 @@ public class Todo
     }
     public String getDateTime()
     {
-        return category;
+        return dateTime;
     }
     public void setDateTime(String dateTime)
     {
