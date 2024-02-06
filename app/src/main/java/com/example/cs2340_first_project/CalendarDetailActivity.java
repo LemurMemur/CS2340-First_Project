@@ -23,9 +23,9 @@ public class CalendarDetailActivity extends AppCompatActivity
     private EditText eventTitleEditText, eventInstructorEditText, eventSectionEditText,
             eventLocationEditText;
     private LinearLayout eventDaySelection;
-    private Button deleteButton, eventTimeButton, eventDetailsBackButton;
+    private Button deleteButton, eventTimeButton, eventDetailsBackButton, eventEndTimeButton;
     private Course selectedEvent;
-    private String selectedTime;
+    private String selectedTime, selectedEndTime;
 
 
     @Override
@@ -52,12 +52,21 @@ public class CalendarDetailActivity extends AppCompatActivity
         eventTimeButton = findViewById(R.id.eventTimeButton);
         deleteButton = findViewById(R.id.deleteEventButton);
         eventDetailsBackButton = findViewById(R.id.eventDetailsBackButton);
+        eventEndTimeButton = findViewById(R.id.eventEndTimeButton);
 
 
         eventTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showTimePickerDialog();
+                System.out.println("eventTime pressed");
+            }
+        });
+
+        eventEndTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEndTimePickerDialog();
                 System.out.println("eventTime pressed");
             }
         });
@@ -78,6 +87,7 @@ public class CalendarDetailActivity extends AppCompatActivity
         int passedEventID = getIntent().getIntExtra("id", -1); // fix this
         selectedEvent = (Course) Event.findEventByID(passedEventID);
         selectedTime = "00:00";
+        selectedEndTime = "00:00";
 
         if (selectedEvent != null)
         {
@@ -89,7 +99,9 @@ public class CalendarDetailActivity extends AppCompatActivity
             eventSectionEditText.setText(selectedEvent.getSection());
             eventLocationEditText.setText(selectedEvent.getLocation());
             selectedTime = selectedEvent.getTimeOfDay();
-            eventTimeButton.setText("Selected Time: " + selectedTime);
+            selectedEndTime = selectedEvent.getEndTime();
+            eventTimeButton.setText("Start Time: " + selectedTime);
+            eventEndTimeButton.setText("End Time: " + selectedEndTime);
 
         }
         else
@@ -116,7 +128,7 @@ public class CalendarDetailActivity extends AppCompatActivity
         String location = String.valueOf(eventLocationEditText.getText());;
         if(selectedEvent == null)
         {
-            Course newCourse = new Course(title, instructor, daysOfWeek, selectedTime, section, location);
+            Course newCourse = new Course(title, instructor, daysOfWeek, selectedTime, section, location, selectedEndTime);
             //System.out.println(newCourse);
             Event.events.add(newCourse);
             ESQLM.addEventToDatabase(newCourse);
@@ -129,6 +141,7 @@ public class CalendarDetailActivity extends AppCompatActivity
             selectedEvent.setSection(section);
             selectedEvent.setLocation(location);
             selectedEvent.setTimeOfDay(selectedTime);
+            selectedEvent.setEndTime(selectedEndTime);
             ESQLM.updateEventInDB(selectedEvent);
         }
 
@@ -149,7 +162,29 @@ public class CalendarDetailActivity extends AppCompatActivity
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         selectedTime = String.format("%02d:%02d", hourOfDay, minute);
-                        eventTimeButton.setText("Selected Time: " + selectedTime);
+                        eventTimeButton.setText("Start Time: " + selectedTime);
+                    }
+                },
+                hour,
+                minute,
+                true
+        );
+
+        timePickerDialog.show();
+    }
+
+    private void showEndTimePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(
+                this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        selectedEndTime = String.format("%02d:%02d", hourOfDay, minute);
+                        eventEndTimeButton.setText("End Time: " + selectedEndTime);
                     }
                 },
                 hour,

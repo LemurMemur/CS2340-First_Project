@@ -29,6 +29,7 @@ public class EventSQLM extends SQLiteOpenHelper
     private static final String INSTRUCTOR_FIELD = "instructor";
     private static final String DAYS_FIELD = "days";
     private static final String TIME_FIELD = "timeOfDay";
+    private static final String END_TIME_FIELD = "endTime";
 
     public EventSQLM(Context context)
     {
@@ -82,6 +83,8 @@ public class EventSQLM extends SQLiteOpenHelper
                 .append(DAYS_FIELD)
                 .append(" TEXT, ")
                 .append(TIME_FIELD)
+                .append(" TEXT, ")
+                .append(END_TIME_FIELD)
                 .append(" TEXT)");
 
         sqLiteDatabase.execSQL(sql.toString());
@@ -115,6 +118,8 @@ public class EventSQLM extends SQLiteOpenHelper
         contentValues.put(INSTRUCTOR_FIELD, ((Course) event).getInstructor());
         contentValues.put(DAYS_FIELD, boolArrtoString(((Course) event).getDaysOfWeek()));
         contentValues.put(TIME_FIELD, ((Course) event).getTimeOfDay());
+        contentValues.put(END_TIME_FIELD, ((Course) event).getEndTime());
+
 
 
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
@@ -159,6 +164,7 @@ public class EventSQLM extends SQLiteOpenHelper
         contentValues.put(INSTRUCTOR_FIELD, ((Course) event).getInstructor());
         contentValues.put(DAYS_FIELD, boolArrtoString(((Course) event).getDaysOfWeek()));
         contentValues.put(TIME_FIELD, ((Course) event).getTimeOfDay());
+        contentValues.put(END_TIME_FIELD, ((Course) event).getEndTime());
 
         sqLiteDatabase.update(TABLE_NAME, contentValues, ID_FIELD + " =? ", new String[]{String.valueOf(event.getID())});
     }

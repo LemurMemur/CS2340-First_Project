@@ -15,6 +15,11 @@ public class Course extends WeeklyEvent {
         this.instructor = instructor;
         this.section = section;
     }
+    public Course(String title, String location, boolean[] daysOfWeek, String timeOfDay, String instructor, String section, String endTime) {
+        super(title, location, daysOfWeek, timeOfDay, endTime);
+        this.instructor = instructor;
+        this.section = section;
+    }
 
     public void setInstructor(String instructor) {
         this.instructor = instructor;

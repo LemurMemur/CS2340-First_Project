@@ -4,6 +4,7 @@ package com.example.cs2340_first_project;
 public class WeeklyEvent extends Event {
     private boolean[] daysOfWeek;
     private String timeOfDay;
+    private String endTime;
     public WeeklyEvent() {
         super();
         daysOfWeek = new boolean[7];
@@ -12,6 +13,10 @@ public class WeeklyEvent extends Event {
         super(title, location);
         this.daysOfWeek = daysOfWeek;
         this.timeOfDay = timeOfDay;
+    }
+    public WeeklyEvent(String title, String location, boolean[] daysOfWeek, String timeOfDay, String endTime) {
+        this(title, location, daysOfWeek, timeOfDay);
+        this.endTime = endTime;
     }
 
     public void setDaysOfWeek(boolean[] daysOfWeek) {
@@ -26,5 +31,12 @@ public class WeeklyEvent extends Event {
     }
     public String getTimeOfDay() {
         return timeOfDay;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+    public String getEndTime() {
+        return endTime;
     }
 }

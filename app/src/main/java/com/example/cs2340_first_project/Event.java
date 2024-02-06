@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Event {
 
     public static ArrayList<Event> events = new ArrayList<>();
-    public static int idCount = 0; //TODO set this to database id count
+    public static int idCount = 0;
     private int id;
     private String title;
     private String location;
