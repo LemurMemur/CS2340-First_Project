@@ -14,6 +14,7 @@
         android:minHeight="?actionBarSize"
         android:theme="?actionBarTheme">
         <Button
+            android:id="@+id/filterButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -49,6 +50,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="3dp"
         android:dividerHeight="3dp"
+        android:clickable="true"
+        android:focusable="true"
         android:divider="@color/darkGray">
     </ListView>
 

@@ -33,9 +33,16 @@ public class MainActivityTodo extends AppCompatActivity {
     private void initWidgets() {
         todoListView = findViewById(R.id.todoListView);
     }
+    private static boolean firstRun = true;
+
     private void loadFromDBToMemory(){
-        SQLiteManager sqLiteManager = SQLiteManager.instanceOfDatabase(this);
-        sqLiteManager.populateTodoListArray();
+        if(firstRun){
+            SQLiteManager sqLiteManager = SQLiteManager.instanceOfDatabase(this);
+            sqLiteManager.populateTodoListArray();
+            sqLiteManager.close();
+            finish();
+        }
+        firstRun = false;
     }
     private void setTodoAdapter(){
         TodoAdapter todoAdapter = new TodoAdapter(getApplicationContext(), Todo.nonDeletedTodos());
