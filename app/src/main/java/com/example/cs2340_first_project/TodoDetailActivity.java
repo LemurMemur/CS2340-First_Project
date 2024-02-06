@@ -58,7 +58,7 @@ public class TodoDetailActivity extends AppCompatActivity
 
         if(selectedTodo == null)
         {
-            int id = com.example.cs2340_first_project.Todo.todoArrayList.size();
+            int id = Todo.todoArrayList.size();
             Todo newTodo = new Todo(id, title, desc);
             com.example.cs2340_first_project.Todo.todoArrayList.add(newTodo);
             sqLiteManager.addTodoToDatabase(newTodo);
