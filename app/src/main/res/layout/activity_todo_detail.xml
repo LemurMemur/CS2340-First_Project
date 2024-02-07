@@ -26,7 +26,14 @@
             android:textColor="@color/darkGray"
             android:textSize="20sp"
             android:textStyle="bold" />
-
+        <Spinner
+            android:id="@+id/completeSpinner"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:background="@color/white"
+            />
 
 
         <Button
@@ -41,13 +48,7 @@
             android:onClick="saveTodo"/>
 
     </androidx.appcompat.widget.Toolbar>
-    <Spinner
-        android:id="@+id/completeSpinner"
-        android:layout_width="150dp"
-        android:layout_height="25dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
