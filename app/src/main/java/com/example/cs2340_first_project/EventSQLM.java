@@ -143,7 +143,8 @@ public class EventSQLM extends SQLiteOpenHelper
                     String instructor = result.getString(5);
                     boolean[] days = stringtoBoolArr(result.getString(6));
                     String time = result.getString(7);
-                    Event event = new Course(title, location, days, time, instructor, section);
+                    String endTime = result.getString(8);
+                    Event event = new Course(title, location, days, time, instructor, section, endTime);
                     event.setID(id);
                     Event.events.add(event);
                     Event.idCount = Math.max(Event.idCount, id+1);
