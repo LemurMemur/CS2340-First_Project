@@ -19,7 +19,7 @@ import java.util.Date;
 
 public class TodoDetailActivity extends AppCompatActivity {
     private EditText titleEditText, descEditText, courseEditText, locationEditText, dateTimeEditText;
-    private Button deleteButton ;
+    private Button deleteButton, todoDetailsBackButton;
     private Todo selectedTodo;
     private Spinner categorySpinner, completeSpinner;
 
@@ -44,6 +44,14 @@ public class TodoDetailActivity extends AppCompatActivity {
         categorySpinner = findViewById(R.id.categorySpinner);
         completeSpinner = findViewById(R.id. completeSpinner);
 
+        todoDetailsBackButton = findViewById(R.id.todoDetailsBackButton);
+        todoDetailsBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
     }
 
     private void checkForEditTodo() {

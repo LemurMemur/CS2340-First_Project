@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CS2340-First_Project</string>
+    <string name="app_name">i-schedule</string>
     <string name="title_home">Home</string>
     <string name="title_exams">Exams</string>
     <string name="title_notifications">Notifications</string>
