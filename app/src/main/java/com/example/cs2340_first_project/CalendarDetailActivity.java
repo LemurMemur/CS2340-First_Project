@@ -145,7 +145,7 @@ public class CalendarDetailActivity extends AppCompatActivity
             ESQLM.updateEventInDB(selectedEvent);
         }
 
-        //EventNotificationScheduler.scheduleEventNotification(view.getContext(), selectedTime, daysOfWeek, selectedEvent);
+        EventNotificationScheduler.scheduleEventNotification(view.getContext(), selectedTime, daysOfWeek, selectedEvent);
 
         setResult(RESULT_OK);
         finish();

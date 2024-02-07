@@ -1,15 +1,22 @@
 package com.example.cs2340_first_project;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 
+import androidx.annotation.RequiresPermission;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,101 +36,44 @@ public class EventNotificationScheduler {
 
     public static void scheduleEventNotification(Context context, String startTime, boolean[] days, Event event) {
         int eventId = event.getID();
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            alarmManager.cancelAll();
-        }
-
-        Intent intent = new Intent(context, EventNotificationReceiver.class);
-        intent.putExtra("eventId", eventId);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) eventId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        String eventTitle = event.getTitle();
 
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            LocalDate currentDate = LocalDate.now();
-            for (int i=0; i<7;++i) {
-                currentDate = currentDate.plusDays(1);
-                if (days[i + currentDate.getDayOfWeek().getValue() - 1]) {
-                    LocalDateTime notificationTime = calculateNotificationTime(startTime, currentDate);
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, notificationTime.toInstant(ZoneOffset.UTC).toEpochMilli(), pendingIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            LocalDateTime currDateTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HH:mm")));
+            for (int i=0; i<7; ++i) {
+                if (days[(i + currDateTime.getDayOfWeek().getValue() - 1)%7]) {
+                    scheduleNotification(context, eventTitle, eventTitle + " soon!", currDateTime.plusMinutes(-60));
                 }
             }
         }
 
+
     }
+    @RequiresPermission(value = "android.permission.SCHEDULE_EXACT_ALARM", conditional = true)
+    public static void scheduleNotification(Context context, String title, String message, LocalDateTime time) {
+        Intent intent = new Intent(context, Notification.class);
+        intent.putExtra(EventNotifications.titleExtra, title);
+        intent.putExtra(EventNotifications.messageExtra, message);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                context,
+                EventNotifications.notificationID,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE
+        );
 
-    private static LocalDateTime calculateNotificationTime(String startTimeString, LocalDate date) {
-        if (!(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)) return null;
+        AlarmManager alarmManager = (AlarmManager)  context.getSystemService(Context.ALARM_SERVICE);
 
-        LocalTime startTime = LocalTime.parse(startTimeString, DateTimeFormatter.ofPattern("HH:mm"));
-        LocalDateTime dateTime = LocalDateTime.of(date, startTime);
-        return dateTime;
-    }
-
-    public static class EventNotificationReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            int eventId = intent.getIntExtra("eventId", -1);
-
-            if (eventId != -1) {
-                showNotification(context, eventId);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (alarmManager.canScheduleExactAlarms()) {
+                alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        time.toInstant(ZoneOffset.UTC).toEpochMilli(),
+                        pendingIntent
+                );
             }
         }
 
-        private void showNotification(Context context, int eventId) {
-            // Build and show notification
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-            if (notificationManager == null) {
-                return;
-            }
-
-            // Create Notification channel
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
-                notificationManager.createNotificationChannel(channel);
-            }
-
-            Intent intent = new Intent(context, CalendarDetailActivity.class);
-            intent.putExtra("eventId", eventId);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) eventId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            String eventTitle = Event.findEventByID(eventId).getTitle();
-
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.schedule_icon)
-                    .setContentTitle(eventTitle)
-                    .setContentText(eventTitle + " is starting soon.")
-                    .setContentIntent(pendingIntent)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setAutoCancel(true);
-
-            notificationManager.notify((int) eventId, builder.build());
-
-
-            // set notification for next week
-
-            rescheduleEventNotification(context, eventId);
-
-        }
-
-
-        public static void rescheduleEventNotification(Context context, int eventId) {
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            Intent intent = new Intent(context, EventNotificationReceiver.class);
-            intent.putExtra("eventId", eventId);
-
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) eventId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                LocalDateTime notificationTime = LocalDateTime.now().plusWeeks(1);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, notificationTime.toInstant(ZoneOffset.UTC).toEpochMilli(), pendingIntent);
-            }
-            if (alarmManager != null) {
-            }
-        }
     }
 }

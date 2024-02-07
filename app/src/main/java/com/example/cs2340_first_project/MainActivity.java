@@ -2,6 +2,8 @@ package com.example.cs2340_first_project;
 
 import static com.example.cs2340_first_project.EventSQLM.instanceOfEventDatabase;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cs2340_first_project.databinding.ActivityMainBinding;
 
+import java.nio.channels.Channel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        createNotificationChannel();
 
         currMonth = 1;
 
@@ -217,6 +222,20 @@ public class MainActivity extends AppCompatActivity {
         EventSQLM ESQLM = instanceOfEventDatabase(this);
         ESQLM.populateEventListArray();
     }
+
+    private void createNotificationChannel() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            String name = "Notif Channel";
+            String desc = "Channel for events";
+            int impo = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(EventNotifications.channelID, name, impo);
+            channel.setDescription(desc);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+    }
+
 
 
 }
