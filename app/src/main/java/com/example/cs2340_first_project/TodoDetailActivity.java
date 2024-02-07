@@ -21,7 +21,7 @@ public class TodoDetailActivity extends AppCompatActivity {
     private EditText titleEditText, descEditText, courseEditText, locationEditText, dateTimeEditText;
     private Button deleteButton ;
     private Todo selectedTodo;
-    private Spinner categorySpinner;
+    private Spinner categorySpinner, completeSpinner;
 
 
     @Override
@@ -31,6 +31,7 @@ public class TodoDetailActivity extends AppCompatActivity {
         initWidgets();
         checkForEditTodo();
         setupCategorySpinner();
+        setupCompleteSpinner();
     }
 
     private void initWidgets() {
@@ -41,6 +42,7 @@ public class TodoDetailActivity extends AppCompatActivity {
         dateTimeEditText = findViewById(R.id.dateTimeEditText);
         deleteButton = findViewById(R.id.deleteTodoButton);
         categorySpinner = findViewById(R.id.categorySpinner);
+        completeSpinner = findViewById(R.id. completeSpinner);
 
     }
 
@@ -71,10 +73,11 @@ public class TodoDetailActivity extends AppCompatActivity {
         String location = locationEditText.getText().toString();
         String category = categorySpinner.getSelectedItem().toString();
         String duedate = dateTimeEditText.getText().toString();
+        String complete = completeSpinner.getSelectedItem().toString();
 
         if (selectedTodo == null) {
             int id = Todo.todoArrayList.size();
-            Todo newTodo = new Todo(id, title, desc, course, location, category, duedate);
+            Todo newTodo = new Todo(id, title, desc, course, location, category, duedate, complete);
             Todo.todoArrayList.add(newTodo);
             sqLiteManager.addTodoToDatabase(newTodo);
         } else {
@@ -84,6 +87,7 @@ public class TodoDetailActivity extends AppCompatActivity {
             selectedTodo.setLocation(location);
             selectedTodo.setCategory(category);
             selectedTodo.setDuedate(duedate);
+            selectedTodo.setComplete(complete);
             sqLiteManager.updateTodoInDB(selectedTodo);
         }
 
@@ -134,6 +138,29 @@ public class TodoDetailActivity extends AppCompatActivity {
         }
 
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Optionally update the Todo object immediately if needed
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+    }
+    private void setupCompleteSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.completeness_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        completeSpinner.setAdapter(adapter);
+
+        // Set spinner to show the correct category when editing an existing Todo
+        if (selectedTodo != null && selectedTodo.getComplete() != null) {
+            int spinnerPosition = adapter.getPosition(selectedTodo.getComplete());
+            completeSpinner.setSelection(spinnerPosition);
+        }
+
+        completeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // Optionally update the Todo object immediately if needed

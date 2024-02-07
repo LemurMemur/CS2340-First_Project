@@ -16,11 +16,12 @@ public class Todo
     private String category;
     private String duedate;
     private Date deleted;
+    private String complete;
 
 
 
 
-    public Todo(int id, String title, String description, String course, String location, String category, String duedate, Date deleted)
+    public Todo(int id, String title, String description, String course, String location, String category, String duedate, String complete, Date deleted)
     {
         this.id = id;
         this.title = title;
@@ -29,10 +30,11 @@ public class Todo
         this.location = location;
         this.category = category;
         this.duedate = duedate;
+        this.complete = complete;
         this.deleted = deleted;
     }
 
-    public Todo(int id, String title, String description, String course, String location, String category, String duedate)
+    public Todo(int id, String title, String description, String course, String location, String category, String duedate, String complete)
     {
         this.id = id;
         this.title = title;
@@ -41,6 +43,7 @@ public class Todo
         this.location = location;
         this.category = category;
         this.duedate = duedate;
+        this.complete = complete;
         deleted = null;
     }
 
@@ -130,11 +133,18 @@ public class Todo
     {
         this.duedate = duedate;
     }
+    public String getComplete()
+    {
+        return complete;
+    }
+    public void setComplete(String complete)
+    {
+        this.complete = complete;
+    }
     public Date getDeleted()
     {
         return deleted;
     }
-
     public void setDeleted(Date deleted)
     {
         this.deleted = deleted;
